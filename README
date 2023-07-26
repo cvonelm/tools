@@ -1,0 +1,9 @@
+Miscellaneous small tools not worth their own repo
+
+## tp_to_struct.py 
+
+Generates a C struct from a tracepoint format description
+
+Usage (for block/block_rq_issue tracepoint):
+
+./tp_to_struct.py block block_rq_issue
