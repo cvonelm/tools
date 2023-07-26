@@ -38,15 +38,29 @@ pattern = re.compile('\s+field:.*\s([a-zA-Z_]+).*;\s+offset:(\d+).*size:(\d+).*s
 
 f = open("/sys/kernel/debug/tracing/events/{}/{}/format".format(group, tracepoint));
 
+print("struct __attribute((__packed__)) TracepointSampleType")
+print("{")
+print()
+
+print("    uint16_t common_type;")
+print("    uint8_t common_flags;")
+print("    uint8_t common_preempt_count;")
+print("    int32_t common_pid;")
+print("};")
+print("")
 print("struct __attribute((__packed__)) {}_{}".format(group, tracepoint))
 print("{")
+print("    struct TracepointSampleType header;")
 
-cur_offset = 0
-padding_num = 0;
+cur_offset = 8
+padding_num = 0
+
 for line in f:
     match = pattern.match(line)
     if match:
         name = match.group(1)
+        if("common_" in name):
+            continue
         next_offset = int(match.group(2))
         size = int(match.group(3))
         signed = int(match.group(4))
