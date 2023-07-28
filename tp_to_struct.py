@@ -40,8 +40,8 @@ f = open("/sys/kernel/debug/tracing/events/{}/{}/format".format(group, tracepoin
 
 print("struct __attribute((__packed__)) TracepointSampleType")
 print("{")
-print()
-
+print("    uint64_t time;")
+print("    uint32_t tp_data_size;")
 print("    uint16_t common_type;")
 print("    uint8_t common_flags;")
 print("    uint8_t common_preempt_count;")
